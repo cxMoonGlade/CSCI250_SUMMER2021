@@ -98,7 +98,28 @@ res = 536870911
 
 ##### Add, minors, 1's comp, 2's comp
 
-​	just like in CSCI150, no notes for them.
+​	
+
+#### signed number trans to unsigned number
+
+For positive number: they equal
+
+For negative number: unsigned number equals the 2's complement of signed number
+
+e.g.
+
+```c
+short s = -12345;
+unsigned short us = (unsigned short) s;
+printf("s = %d, us = %u", s, us);
+
+// the output will be :
+// v = -12345, us = 53191
+```
+
+
+
+但是如果转换出的补码数字太大，那么就会的到TMax，既该数据类型下的最大值。
 
 
 
