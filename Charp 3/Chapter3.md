@@ -111,6 +111,7 @@ CX是计数寄存器Count Register，可以控制循环次数； DX是数据寄�
 ```assembly
 add eax, 158
 // eax = eax + 158
+
 sub ax, 10
 // ax = ax - 10
 mov ah, '*'
@@ -209,8 +210,12 @@ sum DWORD ?
 main PROC
 			mov eax, number;
 			// EAX = first_number
-			add eax. 158;
+			add eax, 158;
 			// eax = eax + 158
+			// eax 是一个32位长的通用寄存器，且如上述提到，是一个累加器
+			// 158会被转换为一个双字长度的补码
+			// 同时也会 update sum的值？
+			// Carry flag = 1； Overflow flag = 0； Sign flag = 0； Zero flag = 0 (sum not equal zero). 不清楚这里为什么Carry Flag = 1， 最高位是怎么溢出的呢？
 			mov sum, eax
 			// sum = eax
 			mov eax, 0
@@ -222,6 +227,72 @@ Main ENDP
 END
 // program ends here
 ```
+
+
+
+#### Recall this Overall Flowchart
+
+
+
+【c语言文本】hello.c --> [Preprocessor预处理器[cpp]] --> 【修改过的文本】hello.i --> [Compiler编译器[cci]] --> 【汇编文本】hello.s --> [Assembler汇编器[as]] --> 【二进制可重定向的程序】hello.o（printf.o[]） --> [Linker链接器[ld]] --> 【二进制可执行对象程序】hello
+
+
+
+1. preprocessor: according to the the instructions which starts as # like #include <stdio.o> inside the .c file
+
+   to read the .h files and insert them into the program, then we can get another C program, usually ends as .i
+
+   
+
+2. compiler: converts the .i file to be text file .s in assembly language.
+
+   Assemply language offers an universal output language for different HLLs.
+
+   
+
+3. Assembler: converts the .s file to be machine instructions (binary file .o), and packages them to be a special format named relocatable object program. This binary file only include things has been described in the .c file, not including the static methods or variables.
+
+   
+
+4. Linker: Linker used to link the things used in the program but described by the standard C library.
+
+   Then, we have the last file which can be loaded into memory and excuted by the system. [Executable object program (binary)]
+
+
+
+
+
+#### linux instructions:
+
+1. linux> gcc -Og -S fileName.c
+
+   This cause GCC to run the compiler and generating an assembly file fileName.s, but go no further.
+
+   
+
+2. linux> gcc -Og -c fileName.c
+
+   This generate an object-code file fileName.o.
+
+
+
+
+
+#### Push and Pop Stack Data 压栈， 出栈
+
+Stack is a first in, last out data structure.
+
+Add data via push, 
+
+Remove data via pop
+
+
+
+# 剩下的就是去背这些汇编指令，加油干吧兄弟们！
+
+
+
+
 
 
 
