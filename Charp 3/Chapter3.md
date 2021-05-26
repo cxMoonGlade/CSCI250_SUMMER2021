@@ -1,4 +1,6 @@
-#### Moore's Law 
+[toc]
+
+### Moore's Law 
 
 The number of transistors doubles every 18 months.
 
@@ -6,7 +8,7 @@ The number of transistors doubles every 18 months.
 
 
 
-#### The evolution of  computer component
+### The evolution of  computer component
 
 Electromechanical --> Relay --> Vacuum Tube --> Transistor --> Integrated Circuit
 
@@ -33,13 +35,13 @@ Electromechanical --> Relay --> Vacuum Tube --> Transistor --> Integrated Circui
 
   
 
-- The Program Counter(%rip)指令计数器/程序计数器
+- #### The Program Counter(%rip)指令计数器/程序计数器
 
   给出将要执行的下一条指令在内存中的地址。
 
   
 
-- The Integer Register File整数寄存器文件
+- #### The Integer Register File整数寄存器文件
 
   包含了16个命名的位置，分别存储64位的值。这些寄存器可以存储地址（对应C语言中的Pointer）或者整数数据。 
 
@@ -48,7 +50,7 @@ Electromechanical --> Relay --> Vacuum Tube --> Transistor --> Integrated Circui
 
   
 
-- The Condition Code Registers 条件寄存器
+- #### The Condition Code Registers 条件寄存器
 
   保存着最近执行的算数或逻辑指令的状态信息。
 
@@ -70,19 +72,19 @@ PS：
 
 
 
-#### Flat Memory Model平坦内存模型
+### Flat Memory Model平坦内存模型
 
 程序实际上在存储数据和指令的单个存储空间中，将32位的地址编码为逻辑上的参考虚拟位置。
 
 
 
-#### Segmented Model分段模型
+### Segmented Model分段模型
 
 存储器被可视化为”**段**“的集合，每个“段”长64kb，以16的倍数为开始和增长。
 
 
 
-#### General Register (Data Register)通用寄存器
+### General Register (Data Register)通用寄存器
 
 可用于传送和暂存数据，也可参与算术逻辑运算，并保存运算结果。
 
@@ -122,31 +124,42 @@ mov ah, '*'
 
 
 
+<b>eax  累加和结果寄存器</b>
+<b>ebx  数据指针寄存器</b>
+<b>ecx  循环计数器</b>
+<b>edx  i/o指针</b>
+<b>esi  源地址寄存器</b>
+<b>edi  目的地址寄存器</b>
+<b>esp  堆栈指针</b>
+<b>ebp  栈指针寄存器</b>
 
 
-#### EFLAGS
+
+### EFLAGS
 
 EFLAGS 寄存器主要用于提供程序的状态及进行相应的控制。
 
 在64位模式下，EFLAGS寄存器被拓展为64位的RFLAGS寄存器，高32位被保留，而低32位则与EFLAGS寄存器相同。
 
-1. ##### 状态标志 Status Flags， 指示算数指令（ADD， SUB，MUL，DIV）的结果
+1. #### 状态标志 Status Flags， 指示算数指令（ADD， SUB，MUL，DIV）的结果
 
-   1. CF（bit 0）Carry Flags， 如果算数操作产生的结果在最高有效位MSB发生进位或借位，则为1，否则为0，这标志无符号整数型运算的溢出状态；
+   1. CF（bit 0）Carry Flags， 如果算数操作产生的结果在最高有效位MSB发生进位或借位，则为1，否则为0，这标志无符号整数型运算的溢出状态；定义为结果小于被操作数，如：0001+1111=0000， 溢出了。
 
    2. PF （bit 2）Parity Flags， 如果最低有效位（LSB）包含偶数个1位，则该位为1，否则为0；
 
    3. AF （bit 4） Adjust Flags，如果算数操作在结果的第三位发生进位或借位则为1，这个标志用于BCD运算；
 
-   4. ZF （bit 6） Zero Flags， 如果结果是0，则为1；
+   4. ZF （bit 6） Zero Flags， 如果结果是0，则为1；同时，如果满足忽略条件（如小数点后连续跟5个零则忽略），ZF = 1。
 
    5. SF （bit 7）Sign Flags， 该标志被设置为有符号的整形的最高有效位，（0为正，1为负）
 
-   6. OF （bit 11）Overflow Flags，如果整形结果是大于最大可表示的数字时，或小于最小可表示的数字时，且无法匹配目的操作数时，则为1，反之为0，表示带符号整型运算的溢出状态
+   6. OF （bit 11）Overflow Flags，如果整形结果是大于最大可表示的数字时，或小于最小可表示的数字时，且无法匹配目的操作数时，则为1，反之为0，表示带符号整型运算的溢出状态。通常只有在负加负的时候会考虑OF。
 
+      （a<0 == b<0）&& (t < 0 != a < 0) a、b同号，且a、t不同时小于零；换句话说，ab同号，t和ab异号。
+      
       
 
-2. ##### 方向标志 Direction Flags， （bit 10）控制串指令（MOVS，CMPS，SCAS，LODS，STOS）。
+2. #### 方向标志 Direction Flags， （bit 10）控制串指令（MOVS，CMPS，SCAS，LODS，STOS）。
 
    设置DF标志使得串指令自动递减（从高地址向低地址方向处理字符串），清楚该表示则自动递增。 
 
@@ -154,7 +167,7 @@ EFLAGS 寄存器主要用于提供程序的状态及进行相应的控制。
 
    
 
-3. ##### 系统标志以及IOPL域 System Flags and IOPL Field （暂时不管）
+3. #### 系统标志以及IOPL域 System Flags and IOPL Field （暂时不管）
 
    1. TF （bit 9）Trap Flag， 
    2. IF (bit 9) Interrupt Enable Flag
@@ -171,18 +184,18 @@ EFLAGS 寄存器主要用于提供程序的状态及进行相应的控制。
 
 
 
-#### Modes of Memory Addressing on x86
+### Modes of Memory Addressing on x86
 
 | 0000H                           | program Sement Prefix (PSP) | CS, DS, SS, ES | 有操作系统设定的段寄存器                                     |
 | ------------------------------- | --------------------------- | -------------- | ------------------------------------------------------------ |
 | 0100H                           | Your Program Code           | IP             | IP 指向cpu即将执行的下一个机器指令的地址                     |
 |                                 | Your Program Data           | BX             | 像BX这样的GP寄存器指向存储数据的地址                         |
 |                                 | Unused Memory Space         |                |                                                              |
-| 0FFFFH(16 bit Offset Addresses) | The Stack                   | SP             | Stack Pointer指向下一个push动作发生的地方。Stack，栈，是一个先入后出的buffer缓冲器。 |
+| 0FFFFH(16 bit Offset Addresses) | The Stack                   | SP             | Stack Pointer指向下一个push动作发生的地方。Stack，栈，是一个先入后出的buffer缓冲器。SP只能访问TOP |
 
 
 
-#### Basic Assembly Language
+### Basic Assembly Language
 
 ```assembly
 .586	
@@ -199,13 +212,14 @@ EFLAGS 寄存器主要用于提供程序的状态及进行相应的控制。
 // 简化段定义，用于定义数据, 
 
 number DWORD -105
-// 不知道这个number 什么意思
+// float numver = -105;
 // DWORD指令的意思是'size' of the memory location used for move operation
 
 sum DWORD ?
-// 不知道什么意思……求好心人修改一下
+// float sum;
 
 .CODE
+// 表示接下来是代码段，通常写在代码段开始的前一行
 
 main PROC
 			mov eax, number;
@@ -230,7 +244,7 @@ END
 
 
 
-#### Recall this Overall Flowchart
+### Recall this Overall Flowchart
 
 
 
@@ -262,7 +276,7 @@ END
 
 
 
-#### linux instructions:
+### linux instructions:
 
 1. linux> gcc -Og -S fileName.c
 
@@ -278,7 +292,7 @@ END
 
 
 
-#### Push and Pop Stack Data 压栈， 出栈
+### Push and Pop Stack Data 压栈， 出栈
 
 Stack is a first in, last out data structure.
 
@@ -288,7 +302,94 @@ Remove data via pop
 
 
 
-# 剩下的就是去背这些汇编指令，加油干吧兄弟们！
+只有在有pop和push的时候才进stack，stack是临时拿出去的时候才用到，做到线程/进程 切换。
+
+
+
+### OPCODE
+
+操作码，OPCODE，描述机器语言指令中，指定要执行某种操作的机器码。
+     OPCode与指令的对应关系：
+     同类型的指令，OPCode不一定相同；
+     B8 01000000  mov eax，1
+     B8C7               mov eax,edi
+     OPCode相同，指令不一定相同；
+     90     nop
+     90     xchg ax,ax
+     主要数据域：6个
+     前缀(Prefixes)：大小1Byte，描述指令的前缀情况，划分为5个集合，一个OPCode可能有几个Prefixes；
+          66                                切换操作数大小
+          67                                切换地址大小 
+          F2/F3                           重复操作前缀
+          2E/36/3E/26/64/65     修改默认段(段超越前缀)
+          F0                                 锁定前缀
+     代码(Code)
+     构造模式(MODR/M)：主要解析逻辑集中在ModR/M域，通过查找Intel手册解析该域确定指令的具体格式；
+          分为三部分：模式(Mod)、寄存器(Reg)、寄存器(R/M)
+     SIB：辅助解析；
+          分为三部分：比例(Scale)、索引(Index0)、基数(Base)
+                                                         位移(Displacement)
+     立即数(Immediate)
+     注：
+     a.以上数据域只有代码(Code)必须存在，指令长度在1~16字节之间；
+     b.我们查找的内容在Intel手册的“OPCode Map”中，也称为“操作码映射表”，作用是列出汇编指令与OPCode的对应关系；
+————————————————
+版权声明：本文为CSDN博主「Floydwish」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/brunomarss/article/details/50589556
+
+
+
+
+
+### 两种Control
+
+#### 1. CMP compare
+
+S1, S2;		S2 - S1, 通过EFLAGS的结果得到结果
+
+
+
+#### 2. TEST
+
+A != B, A > B, A == B 这样的判断使用TEST
+
+
+
+CMP和TEST的作用是产出EFLAGS，而EFLAGS是临时性的存储空间，下次做control计算后会被刷新。
+
+
+
+而.L2，.L3这样的Label是根据代码的分叉（如method name、function name、if-else、switch）而被compiler加进去的。
+
+
+
+程序编译步骤///分割、做tree
+
+### JMP jump
+
+jmp是从主程序的某个地方跳到别的一个内存地址。
+
+其中被跳过的程序语句部分就被忽略了。
+
+```assembly
+movq %rdi, %rax
+// rdi is object address register
+// rax， 我们最后return出去的东西通常都是放在rax里面
+// 这些东西去看general register部分，以后不再赘述
+
+```
+
+
+
+
+
+
+
+
+
+
+
+### 剩下的就是去背这些汇编指令，加油干吧兄弟们！
 
 
 
